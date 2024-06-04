@@ -1,0 +1,41 @@
+{% extends 'website/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<h2 class="results-header">Результаты поиска: <br><span>«{{ query }}»</span></h2>
+<hr class="line">
+<div class="columns">
+
+    {% for pin in pins %}
+    <figure>
+        <a href="{{ pin.get_absolute_url }}">
+            {% if pin.image %}
+            <img class="project-obj" src="{{ pin.image.url }}" alt="">
+            {% endif %}
+
+            {% if pin.video %}
+            <video autoplay muted loop>
+                <source src="{{ pin.video.url }}" type="video/mp4">
+                <source src="{{ pin.video.url }}" type="video/webm">
+                <source src="{{ pin.video.url }}" type="video/ogg">
+                <object data="{{ pin.video.url" type="application/x-shockwave-flash">
+                    <param name="movie" value="{{ pin.video.url }}">
+                </object>
+            </video>
+            {% endif %}
+
+            <figcaption>{{ pin.title }}</figcaption>
+            <figcaption>{{ pin.description|linebreaks|truncatewords:15 }}</figcaption>
+            <div class="feed-avatar-block">
+                <img id="feed-avatar" src="{% if pin.author.photo %}{{ pin.author.photo.url }}{% else %}{% static 'website/img/default-profile-photo.png' %}{% endif %}" alt="">
+                <span>{{ pin.author }}</span>
+            </div>
+        </a>
+    </figure>
+    {% endfor %}
+
+
+</div>
+{% endblock %}

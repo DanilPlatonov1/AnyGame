@@ -1,0 +1,16 @@
+{% extends 'website/base.html' %}
+
+{% load static %}
+{% block content %}
+<div class="form-content-wrapper">
+    <div class="form-content">
+        <form method="post">
+            {% csrf_token %}
+            <label>Опишите причину:</label>
+                <textarea name="reason" placeholder="Причина жалобы"></textarea>
+            <button type="submit">Пожаловаться</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

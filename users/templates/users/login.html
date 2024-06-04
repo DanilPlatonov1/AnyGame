@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход в аккаунт</title>
+    <link type="text/css" href="{% static 'users/css/form_style.css' %}" rel="stylesheet"/>
+</head>
+
+<body>
+
+
+<div class="content">
+    <form method="post">
+        {% csrf_token %}
+        <h2>Войти в существующий аккаунт</h2>
+        <hr>
+
+        <div class="form-error">{{ form.non_field_errors }}</div>
+
+        <label for="login">Логин</label>
+        {{ form.username }}
+
+        <label for="password">Пароль</label>
+        {{ form.password }}
+
+        <button type="submit">Войти</button>
+
+    </form>
+
+</div>
+</body>
+
+</html>

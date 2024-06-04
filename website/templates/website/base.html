@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title }}</title>
+
+    <link rel="icon" type="image/svg+xml" href="{% static 'website/logos/page_logo.svg' %}">
+
+    <link type="text/css" href="{% static 'website/css/style.css' %}" rel="stylesheet"/>
+</head>
+
+<body>
+<header>
+    <ul class="nav">
+
+        {% if request.user.is_authenticated %}
+
+        {% for item in main_menu %}
+        <li class="nav-item">
+            <img src="{% static item.logo_src %}" alt="{{ item.alt }}"/>
+            <a href="{% url item.href %}">{{ item.name }}</a>
+        </li>
+        {% endfor %}
+
+        <li class="nav-item prev-last profile-name">
+            <img src="{% static 'website/logos/user-profile.svg' %}" alt="{{ user_menu.0.alt }}">
+            <a href="{{ request.user.profile.get_absolute_url }}">{{ user.username }}</a>
+        </li>
+        <li class="nav-item last">
+            <img src="{% static 'website/logos/logout.svg' %}" alt="{{ user_menu.1.alt }}"/>
+            <a href="{% url 'users:logout' %}">Выйти</a>
+        </li>
+
+        {% else %}
+        <li class="nav-item">
+            <img src="{% static main_menu.0.logo_src %}" alt="{{ main_menu.0.alt }}"/>
+            <a href="{% url main_menu.0.href %}">{{ main_menu.0.name }}</a>
+        </li>
+        <li class="nav-item">
+            <img src="{% static main_menu.3.logo_src %}" alt="{{ main_menu.3.alt }}"/>
+            <a href="{% url main_menu.3.href %}">{{ main_menu.3.name }}</a>
+        </li>
+
+        <li class="nav-item prev-last">
+            <img src="{% static user_menu.0.logo_src %}" alt="{{ user_menu.0.alt }}"/>
+            <a href="{% url 'users:login' %}">{{ user_menu.0.name }}</a>
+        </li>
+        <li class="nav-item last">
+            <img src="{% static user_menu.1.logo_src %}" alt="{{ user_menu.1.alt }}"/>
+            <a href="{% url 'users:sign_up' %}">{{ user_menu.1.name }}</a>
+        </li>
+        {% endif %}
+
+    </ul>
+</header>
+
+<div class="content">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<footer>
+    <div class="footer">
+  	 <div class="container">
+  	 	<div class="row">
+  	 		<div class="footer-col">
+  	 			<h4>Организация</h4>
+  	 			<ul>
+  	 				<li><a href="#">О нас</a></li>
+  	 				<li><a href="#">Наши услуги</a></li>
+  	 				<li><a href="#">Политика конфиденциальности</a></li>
+  	 				<li><a href="#">Партнерская программа</a></li>
+  	 			</ul>
+  	 		</div>
+  	 		<div class="footer-col">
+  	 			<h4>Получить помощь</h4>
+  	 			<ul>
+                    <li><a href="#">Проблемы с аккаунтом</a></li>
+  	 				<li><a href="#">Контакты</a></li>
+                    <li><a href="#">FAQ</a></li>
+  	 			</ul>
+  	 		</div>
+  	 		<div class="footer-col">
+  	 			<h4>Мы в социальных сетях</h4>
+  	 			<div class="social-links">
+  	 				<a href="#"><img style="width: 30px; height: 30px;"
+                                 src="{% static 'website/logos/tg_logo.svg' %}" alt="Поделиться ТГ"/></a>
+  	 				<a href="#"><img style="width: 30px; height: 30px;"
+                                 src="{% static 'website/logos/vk_logo.svg' %}"</a>
+  	 			</div>
+  	 		</div>
+  	 	</div>
+  	 </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2024, Все права защищены.</p>
+    </div>
+</footer>
+
+</body>
+
+</html>

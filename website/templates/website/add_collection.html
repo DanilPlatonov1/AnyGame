@@ -1,0 +1,22 @@
+{% extends 'website/base.html' %}
+
+{% load static %}
+{% block content %}
+<div class="form-content-wrapper">
+    <div class="form-content">
+        <form action="{% url 'add_collection' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label>Название коллекции:</label>
+            {{form.title}}
+
+            <label>Изображение:</label>
+            {{form.collection_image}}
+
+            <button type="submit">Создать коллекцию</button>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

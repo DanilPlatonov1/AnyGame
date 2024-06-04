@@ -1,0 +1,101 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="info-wrapper">
+    <div class="info">
+        <div class="round-image">
+            <img src="{% if profile.photo %}{{ profile.photo.url }}{% else %}{% static 'website/img/default-profile-photo.png' %}{% endif %}" alt=""/>
+        </div>
+        <h1 class="title">{{ profile.user.username }}</h1>
+
+        {% if profile.about %}
+        <p>{{ profile.about }}</p>
+        {% endif %}
+
+        <p class="user-status">
+            {% if is_online %}
+                <span style="color: green;">Online</span>
+            {% else %}
+                <span style="color: red;">Offline</span>
+            {% endif %}
+        </p>
+
+        {% if request.user.profile == profile %}
+        <ul class="settings">
+            <li class="settings-item">
+                <a href="{% url prof_menu.0.href %}">
+                    <img src="{% static prof_menu.0.logo_src %}" alt="{{ prof_menu.0.alt }}"/>
+                </a>
+            </li>
+        </ul>
+        {% else %}
+        {% if is_following %}
+        <form action="{% url 'unfollow' profile.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" id="unfollow">Отписаться</button>
+        </form>
+        {% else %}
+        <form action="{% url 'follow' profile.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" id="follow">Подписаться</button>
+        </form>
+        {% endif %}
+        {% endif %}
+
+        <div class="navigation-links">
+            {% if request.user.profile == profile %}
+            <a href="{% url 'followers' %}">Мои подписчики
+                <span>({{ followers_count }})</span>
+            </a>
+            <a href="{% url 'following' %}">Мои подписки
+                <span>({{ following_count }})</span>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<p class="count-projects">Проектов — {{ pins.count }}</p>
+<div class="columns">
+    {% for pin in pins %}
+    <figure>
+        <a href="{{ pin.get_absolute_url }}">
+            {% if pin.image %}
+            <img class="project-obj" src="{{ pin.image.url }}" alt="">
+            {% endif %}
+
+            {% if pin.video %}
+            <video autoplay muted loop>
+                <source src="{{ pin.video.url }}" type="video/mp4">
+                <source src="{{ pin.video.url }}" type="video/webm">
+                <source src="{{ pin.video.url }}" type="video/ogg">
+                <object data="{{ pin.video.url }}" type="application/x-shockwave-flash">
+                    <param name="movie" value="{{ pin.video.url }}">
+                </object>
+            </video>
+            {% endif %}
+
+            <figcaption>{{ pin.title }}</figcaption>
+            <figcaption>{{ pin.description|linebreaks|truncatewords:15 }}</figcaption>
+        </a>
+
+        {% if request.user.profile == profile %}
+        <ul class="settings">
+            <li class="settings-item">
+                <a href="{% url prof_menu.1.href pin.id %}">
+                    <img style="width: 30px; height: 30px;" src="{% static prof_menu.1.logo_src %}" alt="{{ prof_menu.1.alt }}"/>
+                </a>
+            </li>
+            <li class="settings-item">
+                <a href="{% url prof_menu.2.href pin.id %}">
+                    <img style="width: 30px; height: 30px;" src="{% static prof_menu.2.logo_src %}" alt="{{ prof_menu.2.alt }}"/>
+                </a>
+            </li>
+        </ul>
+        {% endif %}
+    </figure>
+    {% endfor %}
+</div>
+
+{% endblock %}

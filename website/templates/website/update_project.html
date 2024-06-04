@@ -1,0 +1,31 @@
+{% extends 'website/base.html' %}
+
+{% load static %}
+{% block content %}
+<div class="form-content-wrapper">
+    <div class="form-content">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label>Название работы:</label>
+            {{form.title}}
+
+            <label>Описание:</label>
+            {{form.description}}
+
+            <label>Выберите коллекцию:</label>
+            {{form.collection}}
+
+            <label>Изображение:</label>
+            {{form.image}}
+
+            <label>Видео:</label>
+            {{form.video}}
+
+            <button type="submit">Обновить данные</button>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+
+<h2>Подписчики ({{ followers_count }}):</h2>
+<ul class="followers-list">
+    {% for follower in followers %}
+    <li>
+        <a href="{% url 'profile' follower.follower.user.id %}">
+            <div class="follower-info">
+                {% if follower.follower.user.profile.photo %}
+                <img src="{{ follower.follower.user.profile.photo.url }}" alt="Фото профиля">
+                {% else %}
+                <img src="{% static 'website/img/default-profile-photo.png' %}" alt="Фото профиля по умолчанию">
+                {% endif %}
+                <span class="follower-name">{{ follower.follower.user.username }}</span>
+            </div>
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

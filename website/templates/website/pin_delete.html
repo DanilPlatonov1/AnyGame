@@ -1,0 +1,14 @@
+{% extends 'website/base.html' %}
+
+{% load static %}
+{% block content %}
+<div class="form-content-wrapper">
+    <div class="form-content">
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit">Удалить</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

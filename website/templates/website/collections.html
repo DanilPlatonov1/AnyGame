@@ -1,0 +1,30 @@
+{% extends 'website/base.html' %}
+
+{% load static %}
+{% block content %}
+
+    <div class="add-collection">
+        <a href="{% url 'add_collection' %}">
+            <img style="width: 70px; height: 70px;" src="{% static 'website/logos/plus_01.svg' %}">
+        </a>
+    </div>
+
+    <div class="collections-wrapper">
+        {% for collection in collections %}
+            <div class="collection">
+                <figure>
+                <a class="collection-link" href="{{ collection.get_absolute_url }}"><img src="{{ collection.collection_image.url }}" alt>
+                    <span>{{ collection.title }}</span>
+                </a>
+                <a class="delete-collection" href="{% url 'collection_delete' collection.id %}">
+                    <img style="width: 30px; height: 30px;" src="{% static 'website/logos/remove.svg' %}"
+                         alt="{{ prof_menu.1.alt }}"/>
+                </a>
+                </figure>
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}
+

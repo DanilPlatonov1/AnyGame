@@ -1,0 +1,91 @@
+{% extends 'website/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="sort-options">
+        <label for="sort">Способ сортировки: </label>
+        <select id="sort">
+            <option value="time_create_desc" {% if request.GET.sort == 'time_create_desc' %}selected{% endif %}>Сначала новые</option>
+            <option value="time_create_asc" {% if request.GET.sort == 'time_create_asc' %}selected{% endif %}>Сначала старые</option>
+            <option value="likes_count" {% if request.GET.sort == 'likes_count' %}selected{% endif %}>По лайкам</option>
+            <option value="title_asc" {% if request.GET.sort == 'title_asc' %}selected{% endif %}>По алфавиту (A-Z)</option>
+            <option value="title_desc" {% if request.GET.sort == 'title_desc' %}selected{% endif %}>По алфавиту (Z-A)</option>
+        </select>
+    </div>
+
+    <div class="columns" id="posts-container">
+        {% for pin in pins %}
+            <figure data-time="{{ pin.time_create }}" data-likes="{{ pin.likes_count }}">
+                <a href="{{ pin.get_absolute_url }}">
+                    {% if pin.image %}
+                        <img class="project-obj" src="{{ pin.image.url }}" alt="">
+                    {% endif %}
+
+                    {% if pin.video %}
+                        <video autoplay muted loop>
+                            <source src="{{ pin.video.url }}" type="video/mp4">
+                            <source src="{{ pin.video.url }}" type="video/webm">
+                            <source src="{{ pin.video.url }}" type="video/ogg">
+                            <object data="{{ pin.video.url }}" type="application/x-shockwave-flash">
+                                <param name="movie" value="{{ pin.video.url }}">
+                            </object>
+                        </video>
+                    {% endif %}
+
+                    <figcaption>{{ pin.title }}</figcaption>
+
+                    {% autoescape off %}
+                    <figcaption>{{ pin.description|linebreaks|truncatewords:15 }}</figcaption>
+                    {% endautoescape %}
+
+                    <div class="pin-likes">
+                        <div class="block-likes">
+                            <span id="likes-count">{{ pin.likes_count }}</span>
+                            <img style="width: 30px; height: 30px;" src="{% static 'website/logos/like.svg' %}" alt="Likes">
+                        </div>
+                        <div class="block-comm">
+                            <span id="comm-count">{{ pin.comments_count }}</span>
+                            <img style="width: 30px; height: 30px;" src="{% static 'website/logos/comment.svg' %}" alt="Comments">
+                        </div>
+                    </div>
+
+                    <div class="feed-avatar-block">
+                        <img id="feed-avatar" src="{% if pin.author.photo %}{{ pin.author.photo.url }}{% else %}{% static 'website/img/default-profile-photo.png' %}{% endif %}" alt="">
+                        <span>{{ pin.author }}</span>
+                    </div>
+                </a>
+            </figure>
+        {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">1 </a>
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}"> < </a>
+            {% endif %}
+
+            <span class="current">
+                <b>{{ page_obj.number }}</b>
+            </span>
+
+<!--            <span class="current">-->
+<!--                <b>Стр. {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</b>-->
+<!--            </span>-->
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}"> > </a>
+                <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">{{ page_obj.paginator.num_pages }}</a>
+            {% endif %}
+        </span>
+    </div>
+    {% endif %}
+
+    <script>
+        document.getElementById('sort').addEventListener('change', function() {
+            const sortCriteria = this.value;
+            window.location.href = `?sort=${sortCriteria}`;
+        });
+    </script>
+{% endblock %}

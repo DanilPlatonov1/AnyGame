@@ -1,0 +1,31 @@
+{% extends 'website/base.html' %}
+
+{% block content %}
+
+<h2 class="results-header">Коллекция: <br><span>«{{ collection }}»</span></h2>
+<div class="columns">
+
+    {% for pin in pins %}
+    <figure>
+        <a href="{{ pin.get_absolute_url }}">
+            {% if pin.image %}
+            <img class="project-obj" src="{{ pin.image.url }}" alt="">
+            {% endif %}
+
+            {% if pin.video %}
+            <video autoplay muted loop>
+                <source src="{{ pin.video.url }}" type="video/mp4">
+                <source src="{{ pin.video.url }}" type="video/webm">
+                <source src="{{ pin.video.url }}" type="video/ogg">
+                <object data="{{ pin.video.url" type="application/x-shockwave-flash">
+                    <param name="movie" value="{{ pin.video.url }}">
+                </object>
+            </video>
+            {% endif %}
+            <figcaption>{{ pin.title }}</figcaption>
+        </a>
+    </figure>
+    {% endfor %}
+
+</div>
+{% endblock %}

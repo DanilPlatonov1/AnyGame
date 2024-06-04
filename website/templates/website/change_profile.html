@@ -1,0 +1,28 @@
+{% extends 'website/base.html' %}
+
+{% load static %}
+{% block content %}
+<div class="form-content-wrapper">
+    <div class="form-content">
+        <form action="{% url 'change_profile' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label>Имя пользователя:</label>
+            {{ form.username }}
+
+            <label>Фото:</label>
+            {% if form.instance.photo %}
+                <div class="change-profile-photo">
+                    <img src="{{ form.instance.photo.url }}" alt="Текущее изображение профиля" style="max-width: 150px; max-height: 150px; border-radius: 50%;">
+                </div>
+            {% endif %}
+            {{ form.photo }}
+
+            <label>О себе:</label>
+            {{ form.about }}
+
+            <button type="submit">Изменить</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

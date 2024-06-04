@@ -1,0 +1,13 @@
+{% extends 'website/base.html' %}
+{% block content %}
+<div class="form-content-wrapper">
+    <div class="form-content">
+        <form action="{% url 'search' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="searchInput">Введите запрос:</label>
+            <input type="text" id="searchInput" name="search" placeholder="Например, 'Ведьмак 3'"/>
+            <button type="submit">Искать</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

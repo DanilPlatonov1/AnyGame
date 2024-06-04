@@ -1,0 +1,22 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block content %}
+
+<h2>Подписки ({{ following_count }}): </h2>
+<ul class="followers-list">
+    {% for follow in following %}
+    <li>
+        <a href="{% url 'profile' follow.following.user.id %}">
+            <div class="follower-info">
+                {% if follow.following.user.profile.photo %}
+                <img src="{{ follow.following.user.profile.photo.url }}" alt="Фото профиля">
+                {% else %}
+                <img src="{% static 'website/img/default-profile-photo.png' %}" alt="Фото профиля по умолчанию">
+                {% endif %}
+                <span class="follower-name">{{ follow.following.user.username }}</span>
+            </div>
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
