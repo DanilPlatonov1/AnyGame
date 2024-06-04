@@ -45,7 +45,7 @@ class Comment(models.Model):
 class Collections(models.Model):
     title = models.CharField(max_length=18)
     author = models.ForeignKey('Profile', on_delete=models.CASCADE)
-    collection_image = models.ImageField(upload_to='collections/')
+    collection_image = models.ImageField(upload_to='collections/', default='collections/favorites.jpg')
 
     def __str__(self):
         return f'{self.title}'

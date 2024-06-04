@@ -67,7 +67,8 @@ class ShowPin(DetailView):
         context['main_menu'] = main_menu
         context['comments'] = Comment.objects.filter(pin=self.kwargs['pin_id']).order_by('-time_create')
         context['user_menu'] = user_menu
-
+        likes = Likes.objects.filter(pin=self.kwargs['pin_id'], liked_by=self.request.user.profile)
+        context['is_liked'] = likes.exists()
         context['prof_menu'] = prof_menu
         return context
 
@@ -134,7 +135,8 @@ class AddProject(CreateView):
 def follow(request, profile_id):
     user_profile = get_object_or_404(Profile, user=request.user)
     target_profile = get_object_or_404(Profile, id=profile_id)
-    if user_profile != target_profile and not Follow.objects.filter(follower=user_profile, following=target_profile).exists():
+    if user_profile != target_profile and not Follow.objects.filter(follower=user_profile,
+                                                                    following=target_profile).exists():
         Follow.objects.create(follower=user_profile, following=target_profile)
     return redirect('profile', profile_id=profile_id)
 
@@ -166,7 +168,8 @@ class ProfilePage(DetailView):
         context['following_count'] = profile.following.count()
 
         if self.request.user.is_authenticated:
-            context['is_following'] = Follow.objects.filter(follower=self.request.user.profile, following=profile).exists()
+            context['is_following'] = Follow.objects.filter(follower=self.request.user.profile,
+                                                            following=profile).exists()
         else:
             context['is_following'] = False
 
@@ -387,4 +390,3 @@ def report_view(request, pin_id):
 
     return render(request, "website/report_complaint.html",
                   {"form": form, "main_menu": main_menu, "user_menu": user_menu})
-

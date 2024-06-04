@@ -34,12 +34,6 @@ class UpdateProjectForm(forms.ModelForm):
         self.fields['collection'].queryset = Collections.objects.filter(author=self.author)
 
 
-# forms.py
-from django import forms
-from django.contrib.auth.models import User
-from .models import Profile
-
-
 class ChangeProfileForm(forms.ModelForm):
     username = forms.CharField(max_length=150, label="Имя пользователя")
     photo = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': False}))

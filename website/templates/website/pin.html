@@ -2,160 +2,169 @@
 {% load static %}
 {% block content %}
 
-<div class="project-wrapper">
-    <div class="project-content">
+    <div class="project-wrapper">
+        <div class="project-content">
 
-        {% if pin.image %}
-        <img class="project-obj" src="{{ pin.image.url }}" alt="">
-        {% endif %}
-
-        {% if pin.video %}
-        <video class="project-obj" autoplay muted loop>
-            <source src="{{ pin.video.url }}" type="video/mp4">
-            <source src="{{ pin.video.url }}" type="video/webm">
-            <source src="{{ pin.video.url }}" type="video/ogg">
-            <object data="{{ pin.video.url }}" type="application/x-shockwave-flash">
-                <param name="movie" value="{{ pin.video.url }}">
-            </object>
-        </video>
-        {% endif %}
-
-        <div class="project-text">
-            <h2>{{ pin.title }}</h2>
-            <p>{{ pin.description|linebreaks }}</p>
-        </div>
-
-        <div class="project-author-block">
-            <img class="project-author-img" src="
-            {% if pin.author.photo %}{{ pin.author.photo.url }}{% else %}{% static 'website/img/default-profile-photo.png' %}{% endif %}"
-                 alt="">
-            <span> <b><a href="{{ pin.author.get_absolute_url }}">{{ pin.author }}</a></b></span>
-        </div>
-
-        <div class="pin-footer">
-            {% if user.is_authenticated %}
-            <form action="{% url 'like_pin' pin.id %}" method="post">
-                {% csrf_token %}
-                <div class="like">
-                    <button type="submit">
-                        {{ pin.likes_count }}
-                        <img style="width: 40px; height: 40px;"
-                             src="{% static 'website/logos/like.svg' %}" alt="Like">
-                    </button>
-
-                    <div class="share">
-                        <a href="https://t.me/share/url?url={{ request.build_absolute_uri }}" target="_blank"
-                           title="Поделиться в Телеграм">
-                            <img style="width: 30px; height: 30px;"
-                                 src="{% static 'website/logos/tg_logo.svg' %}" alt="Поделиться ТГ"/>
-                        </a>
-                        <a href="https://vk.com/share.php?url={{ request.build_absolute_uri }}" target="_blank"
-                           title="Поделиться во ВКонтакте">
-                            <img style="width: 30px; height: 30px;"
-                                 src="{% static 'website/logos/vk_logo.svg' %}" alt="Поделиться ВК"/>
-                        </a>
-                        <a href="mailto:?subject=Посмотри эту запись&body=Посмотри эту классную запись: {{ request.build_absolute_uri }}"
-                           target="_blank" title="Отправить на почту">
-                            <img style="width: 30px; height: 30px;"
-                                 src="{% static 'website/logos/mail_logo.svg' %}" alt="Отправить на почту"/>
-                        </a>
-                        {% if pin.image %}
-                        <a href="{{ pin.image.url }}" download title="Скачать изображение">
-                            <img style="width: 30px; height: 30px;"
-                                 src="{% static 'website/logos/pic_download.svg' %}"
-                                 alt=""/>
-                        </a>
-                        {% endif %}
-                    </div>
-
-                    {% if pin.author != request.user.profile %}
-                    <div class="complaint">
-                        <a href="{% url 'report_post' pin.pk %}" target="_blank"
-                           title="Пожаловаться">
-                            <img style="width: 40px; height: 40px;"
-                                 src="{% static 'website/logos/complaint.svg' %}" alt="Пожаловаться"/>
-                        </a>
-                    </div>
-                    {% endif %}
-                    {% if pin.author == request.user.profile %}
-                    <ul class="settings">
-                        <li class="settings-item">
-                            <a href="{% url prof_menu.1.href pin.id %}" target="_blank"
-                           title="Изменить">
-                                <img style="width: 30px; height: 30px;" src="{% static prof_menu.1.logo_src %}"
-                                     alt="{{ prof_menu.1.alt }}"/>
-                            </a>
-                        </li>
-                        <li class="settings-item">
-                            <a href="{% url prof_menu.2.href pin.id %}" target="_blank"
-                           title="Удалить">
-                                <img style="width: 30px; height: 30px;" src="{% static prof_menu.2.logo_src %}"
-                                     alt="{{ prof_menu.2.alt }}"/>
-                            </a>
-                        </li>
-                    </ul>
-                    {% endif %}
-
-                </div>
-            </form>
+            {% if pin.image %}
+                <img class="project-obj" src="{{ pin.image.url }}" alt="">
             {% endif %}
-        </div>
 
-        {% if user.is_authenticated %}
-        <div class="project-date-block">
-            <p>Создано: {{ pin.time_create }} <br>Изменено: {{ pin.time_update }}</p>
-        </div>
-        {% endif %}
+            {% if pin.video %}
+                <video class="project-obj" autoplay muted loop>
+                    <source src="{{ pin.video.url }}" type="video/mp4">
+                    <source src="{{ pin.video.url }}" type="video/webm">
+                    <source src="{{ pin.video.url }}" type="video/ogg">
+                    <object data="{{ pin.video.url }}" type="application/x-shockwave-flash">
+                        <param name="movie" value="{{ pin.video.url }}">
+                    </object>
+                </video>
+            {% endif %}
 
-    </div>
-
-
-</div>
-
-<div class="form-comments-container">
-    <form action="{% url 'add_comment' %}" method="post">
-        {% csrf_token %}
-
-        <label for="">Введите комментарий: </label>
-        <input type="text" name="content" id="">
-        <input type="hidden" name="pin_id" value="{{ pin.pk }}">
-
-        <div class="submit-comment-container">
-            <button class="submit-comment">
-                <img src="{% static 'website/logos/send.svg' %}" alt="">
-            </button>
-        </div>
-    </form>
-</div>
-
-
-{% if comments %}
-
-<div class="comments-block">
-    {% for comment in comments %}
-    <div class="comment">
-        <div class="user-container">
-            <img class="comment-user-avatar" src="
-                                {% if comment.author.photo %}{{ comment.author.photo.url }}{% else %}{% static 'website/img/default-profile-photo.png' %}{% endif %}"
-                 alt="">
-            <p class="comment-username"><a
-                    href="{{ comment.author.get_absolute_url }}">{{ comment.author.user.username }}</a></p>
-            <p class="comment-time-create">{{ comment.time_create }}</p>
-
-            {% if comment.author == request.user.profile %}
-            <div class="delete-block">
-                <a href="{% url 'comment_delete' comment.pk %}">
-                    <img src="{% static 'website/logos/remove.svg' %}" alt="">
-                </a>
+            <div class="project-text">
+                <h2>{{ pin.title }}</h2>
+                <p>{{ pin.description|linebreaks }}</p>
             </div>
+
+            <div class="project-author-block">
+                <img class="project-author-img" src="
+                        {% if pin.author.photo %}{{ pin.author.photo.url }}{% else %}{% static 'website/img/default-profile-photo.png' %}{% endif %}"
+                     alt="">
+                <span> <b><a href="{{ pin.author.get_absolute_url }}">{{ pin.author }}</a></b></span>
+            </div>
+
+            <div class="pin-footer">
+                {% if user.is_authenticated %}
+                    <form action="{% url 'like_pin' pin.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="like">
+                            <button type="submit">
+                                {{ pin.likes_count }}
+                                {% if is_liked %}
+                                    <img style="width: 40px; height: 40px;"
+                                         src="{% static 'website/logos/liked.svg' %}" alt="Like">
+                                {% else %}
+                                    <img style="width: 40px; height: 40px;"
+                                         src="{% static 'website/logos/like.svg' %}" alt="Like">
+                                {% endif %}
+                            </button>
+
+                            <div class="share">
+                                <a href="https://t.me/share/url?url={{ request.build_absolute_uri }}" target="_blank"
+                                   title="Поделиться в Телеграм">
+                                    <img style="width: 30px; height: 30px;"
+                                         src="{% static 'website/logos/tg_logo.svg' %}" alt="Поделиться ТГ"/>
+                                </a>
+                                <a href="https://vk.com/share.php?url={{ request.build_absolute_uri }}" target="_blank"
+                                   title="Поделиться во ВКонтакте">
+                                    <img style="width: 30px; height: 30px;"
+                                         src="{% static 'website/logos/vk_logo.svg' %}" alt="Поделиться ВК"/>
+                                </a>
+                                <a href="mailto:?subject=Посмотри эту запись&body=Посмотри эту классную запись: {{ request.build_absolute_uri }}"
+                                   target="_blank" title="Отправить на почту">
+                                    <img style="width: 30px; height: 30px;"
+                                         src="{% static 'website/logos/mail_logo.svg' %}" alt="Отправить на почту"/>
+                                </a>
+                                {% if pin.image %}
+                                    <a href="{{ pin.image.url }}" download title="Скачать изображение">
+                                        <img style="width: 30px; height: 30px;"
+                                             src="{% static 'website/logos/pic_download.svg' %}"
+                                             alt=""/>
+                                    </a>
+                                {% endif %}
+                            </div>
+
+                            {% if pin.author != request.user.profile %}
+                                <div class="complaint">
+                                    <a href="{% url 'report_post' pin.pk %}" target="_blank"
+                                       title="Пожаловаться">
+                                        <img style="width: 40px; height: 40px;"
+                                             src="{% static 'website/logos/complaint.svg' %}" alt="Пожаловаться"/>
+                                    </a>
+                                </div>
+                            {% endif %}
+                            {% if pin.author == request.user.profile %}
+                                <ul class="settings">
+                                    <li class="settings-item">
+                                        <a href="{% url prof_menu.1.href pin.id %}" target="_blank"
+                                           title="Изменить">
+                                            <img style="width: 30px; height: 30px;"
+                                                 src="{% static prof_menu.1.logo_src %}"
+                                                 alt="{{ prof_menu.1.alt }}"/>
+                                        </a>
+                                    </li>
+                                    <li class="settings-item">
+                                        <a href="{% url prof_menu.2.href pin.id %}" target="_blank"
+                                           title="Удалить">
+                                            <img style="width: 30px; height: 30px;"
+                                                 src="{% static prof_menu.2.logo_src %}"
+                                                 alt="{{ prof_menu.2.alt }}"/>
+                                        </a>
+                                    </li>
+                                </ul>
+                            {% endif %}
+
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+
+            {% if user.is_authenticated %}
+                <div class="project-date-block">
+                    <p>Создано: {{ pin.time_create }} <br>Изменено: {{ pin.time_update }}</p>
+                </div>
             {% endif %}
 
         </div>
-        <p class="comment-content">{{ comment.content }}</p>
-    </div>
-    {% endfor %}
-</div>
 
-{% endif %}
+
+    </div>
+
+    <div class="form-comments-container">
+        <form action="{% url 'add_comment' %}" method="post">
+            {% csrf_token %}
+
+            <label for="">Введите комментарий: </label>
+            <input type="text" name="content" id="">
+            <input type="hidden" name="pin_id" value="{{ pin.pk }}">
+
+            <div class="submit-comment-container">
+                <button class="submit-comment">
+                    <img src="{% static 'website/logos/send.svg' %}" alt="">
+                </button>
+            </div>
+        </form>
+    </div>
+
+
+    {% if comments %}
+
+        <div class="comments-block">
+            {% for comment in comments %}
+                <div class="comment">
+                    <div class="user-container">
+                        <img class="comment-user-avatar" src="
+
+
+                                {% if comment.author.photo %}{{ comment.author.photo.url }}{% else %}{% static 'website/img/default-profile-photo.png' %}{% endif %}"
+                             alt="">
+                        <p class="comment-username"><a
+                                href="{{ comment.author.get_absolute_url }}">{{ comment.author.user.username }}</a></p>
+                        <p class="comment-time-create">{{ comment.time_create }}</p>
+
+                        {% if comment.author == request.user.profile %}
+                            <div class="delete-block">
+                                <a href="{% url 'comment_delete' comment.pk %}">
+                                    <img src="{% static 'website/logos/remove.svg' %}" alt="">
+                                </a>
+                            </div>
+                        {% endif %}
+
+                    </div>
+                    <p class="comment-content">{{ comment.content }}</p>
+                </div>
+            {% endfor %}
+        </div>
+
+    {% endif %}
 
 {% endblock %}
