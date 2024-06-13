@@ -23,6 +23,8 @@ prof_menu = [
     {'name': 'Изменить профиль', 'alt': '', 'logo_src': 'website/logos/settings.svg', 'href': 'change_profile'},
     {'name': 'Изменить запись', 'alt': '', 'logo_src': 'website/logos/edit.svg', 'href': 'pin_update'},
     {'name': 'Удалить запись', 'alt': '', 'logo_src': 'website/logos/remove.svg', 'href': 'pin_delete'},
+    {'name': 'Уведомления', 'alt': '', 'logo_src': 'website/logos/notification.svg', 'href': 'notifications_list'},
+    {'name': 'Уведомления', 'alt': '', 'logo_src': 'website/logos/notification_notread.svg', 'href': 'notifications_list'},
 ]
 
 
@@ -67,8 +69,11 @@ class ShowPin(DetailView):
         context['main_menu'] = main_menu
         context['comments'] = Comment.objects.filter(pin=self.kwargs['pin_id']).order_by('-time_create')
         context['user_menu'] = user_menu
-        likes = Likes.objects.filter(pin=self.kwargs['pin_id'], liked_by=self.request.user.profile)
-        context['is_liked'] = likes.exists()
+        if self.request.user.is_authenticated:
+            likes = Likes.objects.filter(pin=self.kwargs['pin_id'], liked_by=self.request.user.profile)
+            context['is_liked'] = likes.exists()
+        else:
+            context['is_liked'] = False
         context['prof_menu'] = prof_menu
         return context
 
@@ -160,6 +165,7 @@ class ProfilePage(DetailView):
         profile = context['profile']
         context['page_title'] = profile
         context['pins'] = Pins.objects.filter(author=profile).annotate(count=Count('pk'))
+        context['unread_notifications'] = Notification.objects.filter(recipient=self.request.user.profile, is_read=False).exists()
         context['main_menu'] = main_menu
         context['user_menu'] = user_menu
         context['prof_menu'] = prof_menu
@@ -371,6 +377,25 @@ class DeleteComment(DeleteView):
         return context
 
 
+@login_required
+def notifications_list(request):
+    notifications = request.user.profile.notifications.all().order_by('-created_at')
+    return render(request, 'website/list_notifications.html',
+                  {
+                      'main_menu': main_menu,
+                      'page_title': 'Уведомления',
+                      'notifications': notifications
+                  })
+
+
+@login_required
+def mark_as_read(request, notification_id):
+    notification = get_object_or_404(Notification, pk=notification_id, recipient=request.user.profile)
+    notification.is_read = True
+    notification.save()
+    return redirect('notifications_list')
+
+
 def report_view(request, pin_id):
     pin = get_object_or_404(Pins, pk=pin_id)
 
@@ -389,4 +414,13 @@ def report_view(request, pin_id):
         form = ReportForm()
 
     return render(request, "website/report_complaint.html",
-                  {"form": form, "main_menu": main_menu, "user_menu": user_menu})
+                  {"form": form, "main_menu": main_menu, "user_menu": user_menu, "page_title": 'Пожаловаться'})
+
+
+def about_project(request):
+    return render(request, 'website/about.html',
+                  {
+                      'user_menu': user_menu,
+                      'main_menu': main_menu,
+                      'page_title': 'О проекте',
+                  })

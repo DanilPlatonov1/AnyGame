@@ -26,4 +26,9 @@ urlpatterns = [
     path('add_comment/', add_comment, name='add_comment'),
     path('comment/<int:pk>/delete/', DeleteComment.as_view(), name='comment_delete'),
     path('pin/<int:pin_id>/report/', report_view, name='report_post'),
+
+    path('notifications/', notifications_list, name='notifications_list'),
+    path('notifications/read/<int:notification_id>/', mark_as_read, name='mark_as_read'),
+
+    path('about_project/', about_project, name='about_project'),
 ]

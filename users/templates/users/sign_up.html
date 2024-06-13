@@ -11,29 +11,34 @@
 
 <body>
 
+<div class="content">
+    <form method="post">
+        {% csrf_token %}
+        <h2>Регистрация нового пользователя</h2>
+        <hr>
 
-<form method="post">
-    {% csrf_token %}
-    <h2>Регистрация нового пользователя</h2>
-    <hr>
+        <div class="form-error">{{ form.non_field_errors }}</div>
 
-    <div class="form-error">{{ form.non_field_errors }}</div>
+        <label for="login">Логин</label>
+        {{ form.username }}
 
-    <label for="login">Логин</label>
-    {{ form.username }}
+        <label for="login">Почта</label>
+        {{ form.email }}
 
-    <label for="login">Почта</label>
-    {{ form.email }}
+        <label for="password">Пароль</label>
+        {{ form.password1 }}
 
-    <label for="password">Пароль</label>
-    {{ form.password1 }}
+        <label for="passwordRepeat">Повторите пароль</label>
+        {{ form.password2 }}
 
-    <label for="passwordRepeat">Повторите пароль</label>
-    {{ form.password2 }}
+        <div class="switch-form">
+            <p>Уже есть аккаунт? <a href="{% url 'users:login' %}">Войдите</a></p>
+        </div>
 
-    <button type="submit">Регистрация</button>
-</form>
+        <button type="submit">Регистрация</button>
+    </form>
+
+</div>
 
 </body>
-
 </html>

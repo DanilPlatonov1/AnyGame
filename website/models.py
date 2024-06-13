@@ -25,6 +25,12 @@ class Pins(models.Model):
     def comments_count(self):
         return self.comment_set.count()
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        followers = self.author.followers.all()
+        for follow in followers:
+            Notification.objects.create(recipient=follow.follower, sender=self.author, pin=self)
+
 
 class Likes(models.Model):
     liked_by = models.ForeignKey('Profile', on_delete=models.CASCADE)
@@ -78,6 +84,17 @@ class Follow(models.Model):
 
     def __str__(self):
         return f'{self.follower} -> {self.following}'
+
+
+class Notification(models.Model):
+    recipient = models.ForeignKey('Profile', related_name='notifications', on_delete=models.CASCADE)
+    sender = models.ForeignKey('Profile', related_name='sent_notifications', on_delete=models.CASCADE)
+    pin = models.ForeignKey('Pins', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'Уведомление для {self.recipient} от {self.sender} о записи {self.pin}'
 
 
 class Report(models.Model):

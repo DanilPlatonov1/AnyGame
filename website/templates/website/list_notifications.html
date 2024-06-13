@@ -1,0 +1,22 @@
+{% extends 'website/base.html' %}
+
+{% block content %}
+  <div class="notification-wrapper">
+    <h2>Уведомления:</h2>
+    <ul class="notifications-list">
+      {% for notification in notifications %}
+        <li class="notification {% if not notification.is_read %}unread{% endif %}">
+          <div class="notification-content">
+            <span>
+              <a href="{% url 'profile' notification.sender.id %}">{{ notification.sender }}</a> опубликовал новую запись:
+              <a href="{% url 'pin' notification.pin.id %}">{{ notification.pin.title }}</a>
+            </span>
+              <a class="mark-as-read" href="{% url 'mark_as_read' notification.id %}">Отметить как прочитанное</a>
+          </div>
+        </li>
+      {% empty %}
+        <li class="no-notifications">Нет уведомлений.</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}
