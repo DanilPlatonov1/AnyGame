@@ -1,0 +1,351 @@
+.collections-wrapper {
+    margin: 0 auto;
+    width: 90%;
+    max-width: 1280px;
+}
+
+.collections-wrapper figure {
+    display: flex;
+    padding: 10px;
+    background-color: #415a77;
+    border-radius: 10px;
+    box-shadow: 0 0 7px rgb(41, 41, 41);
+    transition: background-color 0.8s ease, transform 0.3s ease-in-out;
+    margin: 25px;
+}
+
+.collections-wrapper figure:hover {
+    transform: scale(1.02);
+    background-color: rgba(19, 37, 58, 0.8);
+}
+
+.collection-link {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    font-size: 24px;
+    color: #e0e1dd;
+    text-decoration: none;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.collection-link span {
+    margin: 20px 50px;
+}
+
+.collections-wrapper img {
+    object-fit: cover;
+    width: 170px;
+    height: 170px;
+    border-radius: 10px;
+}
+
+.delete-collection {
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    align-item: center;
+    justify-content: center;
+}
+
+.delete-collection:hover {
+    transform: scale(1.05);
+}
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination a {
+    color: #ffefef;
+    padding: 6px 12px;
+    margin: 0 5px;
+    text-decoration: none;
+    border-radius: 10px;
+    background-color: #415a77;
+    box-shadow: 0 0 3px rgb(41, 41, 41);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.pagination a:hover {
+    background-color: rgba(39, 58, 82, 0.9);
+}
+
+.pagination .current {
+    margin: 0 5px;
+    font-weight: bold;
+    padding: 6px 12px;
+    background-color: #1b263b;
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 3px rgb(41, 41, 41);
+}
+
+.sort-options {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.sort-options label {
+    margin-right: 10px;
+}
+
+.sort-options select {
+    padding: 5px 10px;
+    border-radius: 10px;
+    background-color: #415a77;
+    color: #ffefef;
+    border: none;
+    box-shadow: 0 0 3px rgb(41, 41, 41);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.sort-options select:hover {
+    background-color: rgba(39, 58, 82, 0.9);
+}
+
+.sort-options select:focus {
+    outline: none;
+    background-color: rgba(39, 58, 82, 0.9);
+}
+
+.sort-options select option {
+    background-color: #415a77;
+    color: #ffefef;
+}
+
+.sort-options select option:hover {
+    background-color: rgba(39, 58, 82, 0.9);
+}
+
+.navigation-links {
+    display: flex;
+    flex-direction: column;
+}
+
+.navigation-links a {
+    border-radius: 10px;
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #415a77;
+    margin: 10px auto;
+    padding: 15px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.navigation-links a:hover {
+    transform: scale(1.05);
+}
+
+#follow {
+    background-color: #1b263b;
+    transition: background-color 0.5s ease-in-out;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#follow:hover {
+    background-color: #5b0909;
+}
+
+#unfollow {
+    background-color: #ab1010;
+    transition: background-color 0.5s ease-in-out;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#unfollow:hover {
+    background-color: #5b0909;
+}
+
+.followers-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+
+.followers-list li {
+    margin-bottom: 20px;
+}
+
+.follower-info {
+    display: flex;
+    align-items: center;
+    background-color: #415a77;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px;
+    transition: background-color 0.8s ease, transform 0.3s ease-in-out;
+}
+
+.follower-info:hover {
+    transform: scale(1.05);
+    background-color: rgba(19, 37, 58, 0.8);
+}
+
+.follower-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.follower-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+}
+
+.user-status span {
+    font-weight: bold;
+}
+
+.change-profile-photo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notification-wrapper {
+    margin: 0 auto;
+    padding: 0 25px;
+    max-width: 800px;
+}
+
+.notifications-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.notification {
+    background-color: #415a77;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 900px;
+    width: 100%;
+}
+
+.notification.unread {
+    background-color: #1b263b;
+}
+
+.notification-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.notification-content span {
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.notification-content a {
+    font-weight: bold;
+    text-decoration: none;
+    color: #8eb0d9;
+    transition: background-color 0.8s ease-in-out;
+}
+
+.notification-content a:hover {
+    color: rgba(52, 131, 211, 0.8);
+}
+
+.mark-as-read {
+    font-size: 14px;
+    text-decoration: underline;
+    margin-left: 70px;
+}
+
+.mark-as-read:hover {
+    color: #ab9a9a;
+}
+
+.no-notifications {
+    text-align: center;
+    color: #777;
+    padding: 20px;
+    font-size: 16px;
+}
+
+.about-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1.5s;
+}
+
+.about-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.about-header h1 {
+    font-size: 3em;
+    color: #1b263b;
+    margin: 0;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.about-section {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    transition: transform 0.3s;
+}
+
+.about-section:hover {
+    transform: scale(1.05);
+}
+
+.about-section h2 {
+    font-weight: bolder;
+    font-size: 1.8em;
+    color: #778da9;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #778da9;
+    padding-bottom: 5px;
+}
+
+.about-section p {
+    font-size: 1.1em;
+    color: #666;
+    line-height: 1.8;
+}
+
+.about-section ul {
+    color: #666;
+}
+
+.about-section li {
+    margin: 8px 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

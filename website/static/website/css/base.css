@@ -1,0 +1,75 @@
+/* @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Open+Sans&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+    background-color: #778da9;
+    color: white;
+    font-size: 16px;
+    margin: 0;
+    overflow-y: scroll;
+    line-height: 1.5;
+    font-family: 'Poppins', sans-serif;
+    /*font-family: "Open Sans", sans-serif;*/
+}
+
+body::-webkit-scrollbar {
+    width: 10px;
+    background-color: #1b263b;
+}
+
+body::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: #28354D;
+}
+
+textarea::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+    width: 0;
+}
+
+textarea::-webkit-scrollbar {
+    width: 10px;
+    background-color: #778da9;
+}
+
+textarea::-webkit-scrollbar-thumb {
+    background-color: #1b263b;
+}
+
+body::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+    width: 0;
+}
+
+.round-image {
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.round-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.info-wrapper {
+    margin: 0 auto 40px;
+    max-width: 360px;
+    background-color: #28354D;
+    padding: 30px 100px;
+    border-radius: 15px;
+    box-shadow: 0 0 7px rgb(41, 41, 41);
+}
+
+.info h1 {
+    text-align: center;
+}
+
+.info p {
+    text-align: center;
+    margin-bottom: 30px;
+}
